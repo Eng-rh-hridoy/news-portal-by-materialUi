@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Navbar from './Components/NavBar/Navbar';
+import News from './Components/News/News';
 
 function App() {
+  const [Newses, setNewses] = useState([]);
+  useEffect(()=>{
+    fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=fedff11f83664f59a244de7141a54022')
+    .then(response => response.json())
+    .then(data => setNewses(data.articles))
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar></Navbar>
+      {
+        Newses.map(news => <News news = {news}></News>)
+      }
     </div>
   );
 }
